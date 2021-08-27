@@ -1,6 +1,16 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
+}
+ext {
+    // Version
+    versionMajor = 0
+    versionMinor = 1
+    versionPatch = 0
+    versionBuild = 0
 }
 
 android {
@@ -11,8 +21,8 @@ android {
         applicationId "com.golnaz.store_app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode computeVersionCode()
+        versionName computeVersionName()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,6 +40,18 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    viewBinding {
+        enabled = true
+    }
+
 }
 
 dependencies {
@@ -44,4 +66,44 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //Navigation
+    implementation(Navigation.navigationUi)
+    implementation(Navigation.navigationFragment)
+
+
+    //Test
+    testImplementation(Robolectric.robolectricBaseLibrary)
+    //ViewModel
+    implementation(ViewModel.lifeCycleExt)
+    implementation(ViewModel.lifeCycleLiveData)
+    implementation(ViewModel.lifeCycleViewModel)
+    implementation(ViewModel.arch)
+
+    //Hilt
+    implementation(Hilt.hilt)
+    kapt(Hilt.hiltKapt)
+
+    //Retrofit
+    implementation(Retrofit.retrofit)
+    implementation(Retrofit.moshi)
+    implementation(Retrofit.moshiConverter)
+    kapt(Retrofit.moshiKapt)
+    implementation(Retrofit.interceptor)
+    implementation(Retrofit.rxAdapterRetrofit)
+
+    //Picasso
+    implementation(Picasso.picasso)
+
+    //RxJava
+    implementation(RxJava.rxLibrary)
+    implementation(RxJava.rxandroidLibrary)
+    implementation(RxJava.rxBinding)
+}
+def computeVersionName() {
+    return "${versionMajor}.${versionMinor}.${versionPatch}"
+}
+
+def computeVersionCode() {
+    return new Date().format("yyyyMMdd").toInteger()
 }

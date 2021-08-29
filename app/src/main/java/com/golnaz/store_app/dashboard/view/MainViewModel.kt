@@ -44,7 +44,7 @@ class MainViewModel @Inject constructor(private val getApplicationsListUseCase: 
         )
     }
 
-    private fun mapData(data: List<ListItem?>?) {
+    fun mapData(data: List<ListItem?>?) {
         val allData: MutableList<AppData> = if (data?.size ?: 0 > 10) {
             ConvertAppResponseToAppData().reverseMap(data?.subList(0, 10))
         } else {
@@ -52,24 +52,29 @@ class MainViewModel @Inject constructor(private val getApplicationsListUseCase: 
         }
         if (allData != _allAppList) {
             _allAppList.value = allData
-            val mostAppList: MutableList<AppData> = mutableListOf()
-            for (i in 0 until data?.size!!) {
-                Log.d("TAG", "mapData: "+data[i]?.rating?.compareTo(4.5))
-                if (data[i]?.downloads ?: 0 > 100 && data[i]?.rating?.compareTo(4.5) ?: 0 > 0) {
-                    mostAppList.add(
-                        AppData(
-                            data[i]?.name.toString(),
-                            data[i]?.rating.toString(), data[i]?.icon.toString()
-                        )
-                    )
-                }
-            }
+            val mostAppList = handleMostPopular(data)
             _mostPopularList.value = if (mostAppList.size > 10) {
                 mostAppList.subList(0, 10)
             } else {
                 mostAppList
             }
         }
+    }
+
+    private fun handleMostPopular(data: List<ListItem?>?): MutableList<AppData> {
+        val mostAppList: MutableList<AppData> = mutableListOf()
+        for (i in 0 until data?.size!!) {
+            Log.d("TAG", "mapData: " + data[i]?.rating?.compareTo(4.5))
+            if (data[i]?.downloads ?: 0 > 100 && data[i]?.rating?.compareTo(4.5) ?: 0 > 0) {
+                mostAppList.add(
+                    AppData(
+                        data[i]?.name.toString(),
+                        data[i]?.rating.toString(), data[i]?.icon.toString()
+                    )
+                )
+            }
+        }
+        return mostAppList
     }
 
 

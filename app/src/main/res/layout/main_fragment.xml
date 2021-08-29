@@ -67,8 +67,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{viewModel.progress? View.GONE : View.VISIBLE ,default = gone}">
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.progress? View.GONE : View.VISIBLE ,default = gone}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBar">
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -76,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="@string/most_popular"
                 android:textColor="@color/gray"
                 android:textSize="24sp"
@@ -101,6 +103,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16"
+                android:minHeight="220dp"
+                app:layout_constraintDimensionRatio="6:3"
+                tools:listitem="@layout/header_item_list"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/mostPopularTitle" />
@@ -135,13 +140,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16"
+                android:maxHeight="220dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/allAppTitle" />
+                app:layout_constraintTop_toBottomOf="@id/allAppTitle"
+                tools:listitem="@layout/main_item_list" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <ProgressBar
+            android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{viewModel.progress? View.VISIBLE : View.GONE ,default = visible}"

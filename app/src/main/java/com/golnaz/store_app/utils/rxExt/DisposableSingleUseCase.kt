@@ -1,5 +1,6 @@
 package com.golnaz.store_app.utils.rxExt
 
+import android.util.Log
 import com.golnaz.store_app.utils.baseApiHandler.BaseResponse
 import com.golnaz.store_app.utils.baseApiHandler.RetrofitException
 import io.reactivex.Single
@@ -26,6 +27,7 @@ abstract class DisposableSingleUseCase<T> {
 
                 override fun onError(e: Throwable) {
                     e.printStackTrace()
+                    Log.d("TAG", "onError: ${e.localizedMessage}")
                     if (e is RetrofitException) {
                         val error: RetrofitException = e
                         val baseResponse = error.getErrorBodyAs(BaseResponse::class.java)

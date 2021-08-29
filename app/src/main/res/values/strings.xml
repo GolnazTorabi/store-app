@@ -4,4 +4,7 @@
     <string name="most_popular">MostPopular</string>
     <string name="all_apps">All Apps</string>
     <string name="more">more</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="try_again">Please try again</string>
 </resources>

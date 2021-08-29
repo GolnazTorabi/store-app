@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.golnaz.store_app.dashboard.view.adapter.HeaderAdapter
 import com.golnaz.store_app.dashboard.view.adapter.MainAdapter
 import com.golnaz.store_app.databinding.MainFragmentBinding
+import com.golnaz.store_app.utils.baseApiHandler.ErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -22,7 +23,6 @@ class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by viewModels()
 
-    val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
     @Inject
     lateinit var adapter: MainAdapter
@@ -36,6 +36,7 @@ class MainFragment : Fragment() {
     ): View {
         _binding = MainFragmentBinding.inflate(inflater, container, false)
         _binding?.lifecycleOwner = this
+        _binding?.viewModel = viewModel
         return binding.root
     }
 
@@ -48,6 +49,8 @@ class MainFragment : Fragment() {
     }
 
     private fun initHeaderAdapter() {
+        val layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         headerAdapter = HeaderAdapter()
         binding.mostPopularList.layoutManager = layoutManager
         binding.mostPopularList.adapter = adapter
@@ -55,6 +58,8 @@ class MainFragment : Fragment() {
     }
 
     private fun initAdapter() {
+        val layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         adapter = MainAdapter()
         binding.allAppList.layoutManager = layoutManager
         binding.allAppList.adapter = adapter
@@ -73,7 +78,17 @@ class MainFragment : Fragment() {
         })
         viewModel.error.observe(requireActivity(), {
             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            showDialog()
         })
+    }
+
+    private fun showDialog() {
+        val alertDialog = object : ErrorDialog.AlertDialog {
+            override fun positive() {
+                getData()
+            }
+        }
+        ErrorDialog(requireContext(), alertDialog).show()
     }
 
     override fun onDestroyView() {

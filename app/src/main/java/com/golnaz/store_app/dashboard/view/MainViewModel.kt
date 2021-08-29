@@ -1,5 +1,7 @@
 package com.golnaz.store_app.dashboard.view
 
+
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,11 +29,15 @@ class MainViewModel @Inject constructor(private val getApplicationsListUseCase: 
     val error = MutableLiveData<String?>()
 
     fun getData() {
+        _progress.value = true
         getApplicationsListUseCase.execute(
             onSuccess = { data ->
+                _progress.value = false
                 mapData(data.responses?.listApps?.datasets?.all?.data?.list)
             },
             onError = {
+                Log.d("TAG", "getData: ${it.statusCode}")
+                _progress.value = false
                 error.value = it.message
             },
             onFinish = {}
@@ -45,10 +51,11 @@ class MainViewModel @Inject constructor(private val getApplicationsListUseCase: 
             ConvertAppResponseToAppData().reverseMap(data)
         }
         if (allData != _allAppList) {
-            _allAppList = allData as MutableLiveData<List<AppData>>
+            _allAppList.value = allData
             val mostAppList: MutableList<AppData> = mutableListOf()
             for (i in 0 until data?.size!!) {
-                if (data[i]?.downloads ?: 0 > 100 && data[i]?.rating ?: 0 > 4.5) {
+                Log.d("TAG", "mapData: "+data[i]?.rating?.compareTo(4.5))
+                if (data[i]?.downloads ?: 0 > 100 && data[i]?.rating?.compareTo(4.5) ?: 0 > 0) {
                     mostAppList.add(
                         AppData(
                             data[i]?.name.toString(),
@@ -67,3 +74,4 @@ class MainViewModel @Inject constructor(private val getApplicationsListUseCase: 
 
 
 }
+

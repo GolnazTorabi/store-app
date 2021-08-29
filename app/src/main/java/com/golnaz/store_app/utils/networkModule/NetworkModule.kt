@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -28,7 +29,7 @@ class NetworkModule {
         converterFactory: MoshiConverterFactory,
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl("http://ws2.aptoide.com/api/6/bulkRequest/")
+            .baseUrl("https://ws2.aptoide.com/api/6/bulkRequest/")
             .addConverterFactory(converterFactory)
             .client(httpClient.build())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -54,7 +55,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideGsonConverterFactory(): MoshiConverterFactory {
+    fun provideMoshiConverterFactory(): MoshiConverterFactory {
         return MoshiConverterFactory.create()
     }
 }

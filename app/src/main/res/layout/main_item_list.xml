@@ -23,8 +23,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/appImage"
-                imageUrl="@{appData.appImage}"
-                placeHolder="@drawable/ic_baseline_apps_24"
+                app:imageUrl="@{appData.appImage}"
+                app:placeHolder="@{@drawable/ic_baseline_apps_24}"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/margin_8"

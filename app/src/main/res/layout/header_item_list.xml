@@ -22,8 +22,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/appImage"
-                imageUrl="@{appData.appImage}"
-                placeHolder="@drawable/ic_baseline_apps_24"
+                app:imageUrl="@{appData.appImage}"
+                app:placeHolder="@{@drawable/ic_baseline_apps_24}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintDimensionRatio="6:3"
@@ -46,11 +46,11 @@
                 android:id="@+id/appRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_16"
                 android:text="@{appData.appRate}"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@id/appImage"
+                app:layout_constraintBottom_toBottomOf="@id/star"
+                app:layout_constraintTop_toTopOf="@id/star"
                 app:layout_constraintStart_toEndOf="@id/star" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -63,7 +63,7 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/appRate"
+                app:layout_constraintBottom_toTopOf="@id/star"
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

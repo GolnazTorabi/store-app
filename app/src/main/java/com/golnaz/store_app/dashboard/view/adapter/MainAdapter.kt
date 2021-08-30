@@ -10,7 +10,7 @@ import com.golnaz.store_app.databinding.HeaderItemListBinding
 import javax.inject.Inject
 
 class MainAdapter @Inject constructor(): RecyclerView.Adapter<MainAdapter.MainHolder>() {
-    private var items: MutableList<AppData> = mutableListOf()
+     var items: MutableList<AppData> = mutableListOf()
 
     inner class MainHolder(private val binding: HeaderItemListBinding) :
         RecyclerView.ViewHolder(binding.root) {

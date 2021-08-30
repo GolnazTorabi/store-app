@@ -44,7 +44,7 @@ class MainViewModel @Inject constructor(private val getApplicationsListUseCase: 
         )
     }
 
-    fun mapData(data: List<ListItem?>?) {
+    private fun mapData(data: List<ListItem?>?) {
         val allData: MutableList<AppData> = if (data?.size ?: 0 > 10) {
             ConvertAppResponseToAppData().reverseMap(data?.subList(0, 10))
         } else {

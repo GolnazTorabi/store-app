@@ -21,7 +21,6 @@ import org.mockito.junit.MockitoRule
 class MainViewModelTest {
     private lateinit var getApplicationsListUseCase: GetApplicationsListUseCase
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var appData: MutableList<AppData>
     private lateinit var responseApplications: MutableList<ListItem>
     private lateinit var response: ResponseApplications
 
@@ -41,11 +40,6 @@ class MainViewModelTest {
 
     @Before
     fun setData() {
-        appData = mutableListOf()
-        appData.add(0, AppData("FaceBook", "4.4", "facebookImage"))
-        appData.add(1, AppData("Telegram", "4.6", "telegramImage"))
-        appData.add(2, AppData("Twitter", "4.5", "twitterImage"))
-
         responseApplications = mutableListOf()
         responseApplications.add(
             0,
@@ -61,7 +55,7 @@ class MainViewModelTest {
         )
         responseApplications.add(
             3,
-            ListItem(name = "FaceBook", rating = 4.4F, icon = "facebookImage")
+            ListItem(name = "Instagram", rating = 4.4F, icon = "instagramImage")
         )
         response = ResponseApplications(
             Responses(
@@ -81,19 +75,25 @@ class MainViewModelTest {
     @Test
     fun `Should return false when the size of responseList in not equal to Converter list`() {
         mainViewModel.getData()
-        Assertions.assertEquals(appData.size, responseApplications.size)
+        Assertions.assertEquals(mainViewModel.allAppList.value?.size, responseApplications.size)
     }
 
     @Test
     fun `Should return true when the first items name is equal`() {
         mainViewModel.getData()
-        Assertions.assertEquals(appData[0].appName, responseApplications[0].name)
+        Assertions.assertEquals(mainViewModel.allAppList.value?.get(0)?.appName, responseApplications[0].name)
     }
 
     @Test
     fun `Should return error when all apps list  size is bigger than 10`() {
         mainViewModel.getData()
         Assertions.assertTrue(mainViewModel.allAppList.value?.size ?: 0 <= 10)
+    }
+
+    @Test
+    fun `Should return error when the response list is not equal to converted list`(){
+        mainViewModel.getData()
+        Assertions.assertEquals(mainViewModel.allAppList,responseApplications)
     }
 
 
